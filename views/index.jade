@@ -1,11 +1,5 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  hr
-  h2= 'Поделись файлом'
-  form
-      input(type= 'file', id= 'foo')
-      button(type= 'button', id= 'link_gen')= 'получить ссылку'
-      input(type= 'text', id= 'link_input', readonly= true, placeholder= 'ссылка будет здесь')
+  div(id="drop_zone")='Drop files here'
+  output(id="list")
