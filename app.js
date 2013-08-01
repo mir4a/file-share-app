@@ -1,38 +1,29 @@
+var http = require('http')
+  , fs = require('fs')
+  , chat = require('./chat');
 
-/**
- * Module dependencies.
- */
+http.createServer(function (req, res) {
+  switch (req.url) {
+    case '/':
+      sendFile('index.html');
+      break;
+    case '/upload':
+      chat.upload(req, res);
+      break;
+    case '/download':
+      chat.download(mes);
+      break;
+    default :
+      res.statusCode = 404;
+      res.send("Not found");
+  }
+}).listen(4000);
 
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
-
-var app = express();
-
-// all environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
-app.use(app.router);
-app.use(require('stylus').middleware(__dirname + '/public'));
-app.use(express.static(path.join(__dirname, 'public')));
-
-// development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+function sendFile(fileName, res) {
+  var fileStream = fs.createReadStream(fileName);
+  fileStream
+    .on('error', function() {
+      res.statusCode = 500;
+      res.send("Server error");
+    });
 }
-
-app.get('/', routes.index);
-app.get('/users', user.list);
-
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});

@@ -5,7 +5,9 @@ block content
   p Welcome to #{title}
   hr
   h2= 'Поделись файлом'
-  form
-      input(type= 'file', id= 'foo')
-      button(type= 'button', id= 'link_gen')= 'получить ссылку'
-      input(type= 'text', id= 'link_input', readonly= true, placeholder= 'ссылка будет здесь')
+  form(id= 'sendFile')
+    input(type= 'file', id= 'foo', name= 'file')
+    textarea(name= 'note')
+    button(type= 'submit', id= 'link_gen')= 'получить ссылку'
+
+  div(id= 'trunk')
